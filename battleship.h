@@ -66,5 +66,6 @@ int runApp();
 //states
 //prints splash screen and waits for 
 void displaySplash(State* state);
+void displayRules(State* state);
 
 #endif

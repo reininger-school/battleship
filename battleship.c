@@ -6,7 +6,7 @@ int runApp()
 {
 	//functions to execute various program states
 	void (*stateTable[])(State*) = {
-		displaySplash
+		displaySplash, displayRules
 	};
 	State state = SPLASH; //current game state
 
@@ -19,10 +19,19 @@ int runApp()
 
 //prints title splash screen and waits for enter press
 //postconditions: state is set to RULES
-void displaySplash(State* state)
+void displaySplash(State *state)
 {
+	clear();
 	fprint("art/title.txt");
 	getchar();
 	*state = RULES;
 }
 
+//print rules and waits for enter press
+void displayRules(State *state)
+{
+	clear();
+	fprint("text/rules.txt");
+	getchar();
+	*state = SETUP;
+}
