@@ -49,7 +49,7 @@ typedef enum ship {
 
 //game states
 typedef enum state {
-	SPLASH, RULE, SETUP, HUMAN, COMPUTER, ENDGAME, EXIT
+	SPLASH, RULES, SETUP, HUMAN, COMPUTER, ENDGAME, EXIT
 } State;
 
 typedef struct stats{
@@ -65,6 +65,6 @@ typedef struct stats{
 int runApp();
 //states
 //prints splash screen and waits for 
-void splashScreen(State* state);
+void displaySplash(State* state);
 
 #endif

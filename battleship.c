@@ -5,21 +5,24 @@
 int runApp()
 {
 	//functions to execute various program states
-	void (*fptr[])(State*) = {
-		splashScreen
+	void (*stateTable[])(State*) = {
+		displaySplash
 	};
 	State state = SPLASH; //current game state
 
 	//main game loop
 	while (state != EXIT){
-		(*fptr[state])(&state);
+		(*stateTable[state])(&state);
 	}
 	return 0;
 }
 
-void splashScreen(State* state)
+//prints title splash screen and waits for enter press
+//postconditions: state is set to RULES
+void displaySplash(State* state)
 {
-	fprint("art/boom.txt");
-	*state = EXIT;
+	fprint("art/title.txt");
+	getchar();
+	*state = RULES;
 }
 
