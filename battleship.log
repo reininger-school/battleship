@@ -1,0 +1,94 @@
+Computer shot: (B, 0), hit
+Player shot: (B, 0), miss
+Computer shot: (C, 0), miss
+Player shot: (A, 1), miss
+Computer shot: (B, 1), hit
+Player shot: (B, 2), miss
+Computer shot: (B, 2), hit
+Player shot: (A, 3), miss
+Computer shot: (B, 3), hit
+Player's battleship sunk
+Player shot: (B, 4), miss
+Computer shot: (C, 5), miss
+Player shot: (A, 5), miss
+Computer shot: (E, 9), miss
+Player shot: (B, 6), miss
+Computer shot: (B, 4), miss
+Player shot: (A, 7), miss
+Computer shot: (D, 3), miss
+Player shot: (B, 8), hit
+Computer shot: (H, 5), miss
+Player shot: (C, 8), hit
+Computer shot: (F, 6), miss
+Player shot: (D, 8), hit
+Computer's submarine sunk
+Computer shot: (J, 0), miss
+Player shot: (A, 9), miss
+Computer shot: (B, 5), miss
+Player shot: (C, 9), miss
+Computer shot: (A, 7), hit
+Player shot: (C, 7), hit
+Computer shot: (B, 7), hit
+Player shot: (D, 7), miss
+Computer shot: (C, 7), hit
+Player shot: (C, 6), hit
+Computer shot: (D, 7), hit
+Player shot: (C, 5), hit
+Computer shot: (E, 7), hit
+Player's carrier sunk
+Player shot: (C, 4), hit
+Computer shot: (F, 2), hit
+Player shot: (C, 3), hit
+Computer's carrier sunk
+Computer shot: (F, 3), hit
+Player shot: (C, 1), miss
+Computer shot: (F, 4), miss
+Player shot: (D, 0), miss
+Computer shot: (F, 1), hit
+Player's submarine sunk
+Player shot: (D, 2), miss
+Computer shot: (I, 0), miss
+Player shot: (D, 4), miss
+Computer shot: (H, 9), miss
+Player shot: (E, 1), miss
+Computer shot: (H, 3), miss
+Player shot: (E, 3), miss
+Computer shot: (G, 6), hit
+Player shot: (E, 5), miss
+Computer shot: (G, 5), miss
+Player shot: (D, 6), miss
+Computer shot: (G, 7), miss
+Player shot: (E, 7), hit
+Computer shot: (H, 6), hit
+Player shot: (F, 7), miss
+Computer shot: (I, 6), hit
+Player's cruiser sunk
+Player shot: (E, 8), hit
+Computer's destroyer sunk
+Computer shot: (F, 5), miss
+Player shot: (E, 9), miss
+Computer shot: (C, 8), miss
+Player shot: (G, 0), miss
+Computer shot: (E, 8), miss
+Player shot: (F, 2), hit
+Computer shot: (H, 4), miss
+Player shot: (F, 3), hit
+Computer shot: (E, 4), miss
+Player shot: (F, 4), hit
+Computer shot: (C, 1), hit
+Player shot: (F, 5), hit
+Computer's battleship sunk
+Computer shot: (C, 2), miss
+Player shot: (G, 4), miss
+Computer shot: (D, 1), hit
+Player's destroyer sunk
+---------------------------------------------
+---------------------------------------------
+
+Computer Wins!
+
+Player Stats:
+Hits: 14, Misses: 23, H/M ratio: 0.61
+
+Computer Stats:
+Hits: 17, Misses: 21, H/M ratio: 0.81

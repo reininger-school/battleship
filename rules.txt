@@ -1,0 +1,16 @@
+
+
+	Welcome to Battleship! As admiral, it is your objective to lead your aramda to victory
+	over the enemy fleet. You will alternate taking shots with the enemy, with the goal of
+	sinking all of the enemy ships before the same is done to you. Before the battle, you
+	may coordinate the position of your ships (place ships manually) or allow your trusted
+	captains to choose the best strategic positions (place ships randomly). Once your armada
+	is in place, the battle will commence.Two grids will be displayed: the first details
+	infomation you have about your enemy, while the second shows the position and status of
+	your own armada. You each have sophisticated cloaking mechanisms, and so must fire
+	randomly in the enemies general direction (by selecting row and column coordinates) only
+	learning if the projectile found its target (represnted by a "*") or landed harmlessly in
+	the sea (represented by an "m"). The battle is won or lost when all of the ships on one
+	side have been destroyed. Good luck Admiral!
+
+		                   >>Press any key to enter the bridge... 
