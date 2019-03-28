@@ -1,37 +1,63 @@
 #include "battleship.h"
 #include "util.h"
 
+//global game boards and ships
+Ship humanShips[5], computerShips[5];
+Tile humanBoard[10][10], computerBoard[10][10];
+State state;
+
 //runs battleship app
 int runApp()
 {
 	//functions to execute various program states
-	void (*stateTable[])(State*) = {
-		displaySplash, displayRules
+	void (*stateTable[])() = {
+		displaySplash, displayRules, setupGame
 	};
-	State state = SPLASH; //current game state
+	state = SPLASH; //current game state
 
 	//main game loop
 	while (state != EXIT){
-		(*stateTable[state])(&state);
+		(*stateTable[state])();
 	}
 	return 0;
 }
 
 //prints title splash screen and waits for enter press
 //postconditions: state is set to RULES
-void displaySplash(State *state)
+void displaySplash()
 {
 	clear();
 	fprint("art/title.txt");
 	getchar();
-	*state = RULES;
+	state = RULES;
 }
 
 //print rules and waits for enter press
-void displayRules(State *state)
+//postconditions: state is set to SETUP
+void displayRules()
 {
 	clear();
 	fprint("text/rules.txt");
 	getchar();
-	*state = SETUP;
+	state = SETUP;
+}
+
+//setup game
+void setupGame()
+{
+	//place ships
+	//choose who goes first
+	//pregame cutscene
+}
+
+//place human and computer ships on board
+void placeShips()
+{
+	//place human ships
+	//place computer ships
+}
+
+void placeHumanShips()
+{
+
 }

@@ -35,7 +35,7 @@
 //board symbols
 #define HIT 42 // "*"  
 #define MISS 109 // "m"
-#define WATER 32 // 45 = "-" 32 = " "
+#define BLANK 32 // 45 = "-" 32 = " "
 
 //directions
 typedef enum direction {
@@ -43,14 +43,28 @@ typedef enum direction {
 } Direction;
 
 //ships
-typedef enum ship {
-	CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER
-} Ship;
+typedef enum tileEntity {
+	CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, WATER
+} TileEntity;
 
 //game states
 typedef enum state {
 	SPLASH, RULES, SETUP, HUMAN, COMPUTER, ENDGAME, EXIT
 } State;
+
+//ship struct
+typedef struct ship {
+	TileEntity type;
+	char symbol;
+	int size;
+	int hp;
+	int sunk;
+} Ship;
+
+typedef struct tile {
+	TileEntity entity;//entity occupying board tile
+	char visible;//char to be printed for tile
+} Tile;
 
 typedef struct stats{
 	int total_hits;
@@ -65,7 +79,8 @@ typedef struct stats{
 int runApp();
 //states
 //prints splash screen and waits for 
-void displaySplash(State* state);
-void displayRules(State* state);
+void displaySplash();
+void displayRules();
+void setupGame();
 
 #endif
