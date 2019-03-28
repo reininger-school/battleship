@@ -10,3 +10,9 @@ void fprint(char *path)
 		printf("Error: could not open %s\n", path);
 	fclose(file);
 }
+
+//clears screen
+void clear()
+{
+	system("clear");
+}
