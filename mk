@@ -1,1 +1,1 @@
-cc main.c battleship.c util.c
+cc -Wall main.c battleship.c util.c
