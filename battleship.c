@@ -1,49 +1,49 @@
 #include "battleship.h"
 #include "util.h"
 
-//global game boards and ships
-Ship humanShips[5], computerShips[5];
-Tile humanBoard[10][10], computerBoard[10][10];
-State state;
+//initial game state
+#define START_STATE SPLASH
 
 //runs battleship app
 int runApp()
 {
-	//functions to execute various program states
+	Player human, computer;
+	State state = START_STATE; //initialize game state
+
+	//table of functions defining state behavior
 	void (*stateTable[])() = {
 		displaySplash, displayRules, setupGame
 	};
-	state = SPLASH; //current game state
 
 	//main game loop
 	while (state != EXIT){
-		(*stateTable[state])();
+		(*stateTable[state])(&state, &human, &computer);
 	}
 	return 0;
 }
 
 //prints title splash screen and waits for enter press
 //postconditions: state is set to RULES
-void displaySplash()
+void displaySplash(State *state, Player *human, Player *computer)
 {
 	clear();
 	fprint("art/title.txt");
 	getchar();
-	state = RULES;
+	*state = RULES;
 }
 
 //print rules and waits for enter press
 //postconditions: state is set to SETUP
-void displayRules()
+void displayRules(State *state, Player *human, Player *computer)
 {
 	clear();
 	fprint("text/rules.txt");
 	getchar();
-	state = SETUP;
+	*state = SETUP;
 }
 
 //setup game
-void setupGame()
+void setupGame(State *state, Player *human, Player *computer)
 {
 	//place ships
 	//choose who goes first
@@ -58,6 +58,27 @@ void placeShips()
 }
 
 void placeHumanShips()
+{
+	//place randomly
+	//place manually
+}
+
+void placeComputerShips()
+{
+	//place randomly
+}
+
+void placeShipsRandomly(Tile board[ROWS][COLUMNS])
+{
+
+}
+
+int randomPlayer()
+{
+	return 0;
+}
+
+void displayPregameCutscene()
 {
 
 }

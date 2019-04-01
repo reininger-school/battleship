@@ -43,9 +43,9 @@ typedef enum direction {
 } Direction;
 
 //ships
-typedef enum tileEntity {
+typedef enum boardEntity {
 	CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, WATER
-} TileEntity;
+} BoardEntity;
 
 //game states
 typedef enum state {
@@ -54,7 +54,7 @@ typedef enum state {
 
 //ship struct
 typedef struct ship {
-	TileEntity type;
+	BoardEntity type;
 	char symbol;
 	int size;
 	int hp;
@@ -62,7 +62,7 @@ typedef struct ship {
 } Ship;
 
 typedef struct tile {
-	TileEntity entity;//entity occupying board tile
+	BoardEntity entity;//entity occupying board tile
 	char visible;//char to be printed for tile
 } Tile;
 
@@ -72,15 +72,19 @@ typedef struct stats{
 	double hm_ratio;
 } Stats;
 
+typedef struct player{
+	Tile board[ROWS][COLUMNS];
+	Ship ships[N_SHIPS];
+	Stats stats;
+} Player;
+
 //////////////////////////////////////////////
 //Function Prototypes
 //////////////////////////////////////////////
 
 int runApp();
-//states
-//prints splash screen and waits for 
-void displaySplash();
-void displayRules();
-void setupGame();
+void displaySplash(State *state, Player *human, Player *computer);
+void displayRules(State *state, Player *human, Player *computer);
+void setupGame(State *state, Player *human, Player *computer);
 
 #endif
