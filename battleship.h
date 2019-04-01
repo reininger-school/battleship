@@ -86,5 +86,11 @@ int runApp();
 void displaySplash(State *state, Player *human, Player *computer);
 void displayRules(State *state, Player *human, Player *computer);
 void setupGame(State *state, Player *human, Player *computer);
+void placeShips();
+void placeHumanShips();
+void placeComputerShips();
+void placeShipsRandomly(Tile board[ROWS][COLUMNS]);
+int randomPlayer();
+void displayPregameCutscene();
 
 #endif

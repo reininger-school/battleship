@@ -45,6 +45,7 @@ void displayRules(State *state, Player *human, Player *computer)
 //setup game
 void setupGame(State *state, Player *human, Player *computer)
 {
+	//seed random generator
 	//place ships
 	//choose who goes first
 	//pregame cutscene
@@ -73,9 +74,10 @@ void placeShipsRandomly(Tile board[ROWS][COLUMNS])
 
 }
 
+//returns 0 or 1
 int randomPlayer()
 {
-	return 0;
+	return rand() % 2;
 }
 
 void displayPregameCutscene()
