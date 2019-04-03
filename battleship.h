@@ -19,6 +19,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 //debuggers: 1 for on, 0 for off
 #define DEBUG 0 //prints grid with computer ship locations as well
@@ -33,9 +34,9 @@
 #define N_SHIPS 5
 
 //board symbols
-#define HIT 42 // "*"  
-#define MISS 109 // "m"
-#define BLANK 32 // 45 = "-" 32 = " "
+#define HIT_CHAR 42 // "*"  
+#define MISS_CHAR 109 // "m"
+#define WATER_CHAR 32 // 45 = "-" 32 = " "
 
 //directions
 typedef enum direction {
@@ -54,7 +55,6 @@ typedef enum state {
 
 //ship struct
 typedef struct ship {
-	BoardEntity type;
 	char symbol;
 	int size;
 	int hp;
@@ -86,7 +86,10 @@ int runApp();
 void displaySplash(State *state, Player *human, Player *computer);
 void displayRules(State *state, Player *human, Player *computer);
 void setupGame(State *state, Player *human, Player *computer);
-void placeShips();
+void initializePlayer(Player *player);
+void initializeBoard(Tile board[ROWS][COLUMNS]);
+void initializeShips(Ship ships[]);
+void initializeStats(Stats *stats);
 void placeHumanShips();
 void placeComputerShips();
 void placeShipsRandomly(Tile board[ROWS][COLUMNS]);

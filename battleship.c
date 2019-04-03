@@ -45,17 +45,60 @@ void displayRules(State *state, Player *human, Player *computer)
 //setup game
 void setupGame(State *state, Player *human, Player *computer)
 {
-	//seed random generator
-	//place ships
+	srand(time(NULL));
+	//initialize players
+	//place computer ships
+	//place human ships
 	//choose who goes first
 	//pregame cutscene
 }
 
-//place human and computer ships on board
-void placeShips()
+//initialize player data
+void initializePlayer(Player *player)
 {
-	//place human ships
-	//place computer ships
+	initializeBoard(player->board);
+	initializeShips(player->ships);
+	initializeStats(&player->stats);
+}
+
+//set all board tiles to water
+void initializeBoard(Tile board[ROWS][COLUMNS])
+{
+	for (int i=0; i<ROWS; i++){
+		for (int j=0; j<COLUMNS; j++){
+			board[i][j].entity = WATER;
+			board[i][j].visible = WATER_CHAR;
+		}
+	}
+}
+
+//size of array must be at least 5
+void initializeShips(Ship ships[])
+{
+	//set all ships to unsunk
+	for (int i=0; i<N_SHIPS; i++){
+		ships[i].sunk = 0;
+	}
+	//carrier
+	ships[CARRIER].symbol = 'C';
+	ships[CARRIER].size = ships[CARRIER].hp = 5;
+	//battleship
+	ships[BATTLESHIP].symbol = 'B';
+	ships[BATTLESHIP].size = ships[BATTLESHIP].hp = 4;
+	//cruiser
+	ships[CRUISER].symbol = 'R';
+	ships[CRUISER].size = ships[CRUISER].hp = 3;
+	//submarine
+	ships[SUBMARINE].symbol = 'S';
+	ships[SUBMARINE].size = ships[SUBMARINE].hp = 3;
+	//destroyer
+	ships[DESTROYER].symbol = 'D';
+	ships[DESTROYER].size = ships[DESTROYER].hp = 2;
+}
+
+void initializeStats(Stats *stats)
+{
+	stats->total_hits = stats->total_misses = stats->hm_ratio = 0;
 }
 
 void placeHumanShips()
