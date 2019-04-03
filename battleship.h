@@ -50,7 +50,8 @@ typedef enum boardEntity {
 
 //game states
 typedef enum state {
-	SPLASH, RULES, SETUP, HUMAN, COMPUTER, ENDGAME, EXIT
+	SPLASH, RULES, SETUP, PLACE_SHIPS, CUTSCENE, HUMAN_TURN, COMPUTER_TURN, ENDGAME,
+	EXIT
 } State;
 
 //ship struct

@@ -48,9 +48,7 @@ void setupGame(State *state, Player *human, Player *computer)
 	srand(time(NULL));
 	//initialize players
 	//place computer ships
-	//place human ships
 	//choose who goes first
-	//pregame cutscene
 }
 
 //initialize player data
