@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h>
 
 //debuggers: 1 for on, 0 for off
 #define DEBUG 0 //prints grid with computer ship locations as well
@@ -36,7 +37,10 @@
 //board symbols
 #define HIT_CHAR 42 // "*"  
 #define MISS_CHAR 109 // "m"
-#define WATER_CHAR 32 // 45 = "-" 32 = " "
+#define WATER_CHAR '~' // 45 = "-" 32 = " "
+
+//initial game state
+#define START_STATE SPLASH
 
 //directions
 typedef enum direction {
@@ -57,6 +61,7 @@ typedef enum state {
 //ship struct
 typedef struct ship {
 	char symbol;
+	BoardEntity entity;
 	int size;
 	int hp;
 	int sunk;
@@ -91,9 +96,17 @@ void initializePlayer(Player *player);
 void initializeBoard(Tile board[ROWS][COLUMNS]);
 void initializeShips(Ship ships[]);
 void initializeStats(Stats *stats);
-void placeHumanShips();
-void placeComputerShips();
-void placeShipsRandomly(Tile board[ROWS][COLUMNS]);
+void placeHumanShips(State *state, Player *human, Player *computer);
+void promptPlacement();
+void placeShipsManually(Player *player);
+void placeComputerShips(Player *computer);
+void placeShipsRandomly(Player *player);
+int placeShipRandomly(Ship ship, Tile board[ROWS][COLUMNS]);
+int placeShip(int row, int column, int dir, Ship ship,
+				Tile board[ROWS][COLUMNS]);
+int checkShipFits(int row, int column, int dir, Ship ship, 
+					Tile board[ROWS][COLUMNS]);
+int isOutOfBounds(int row, int column);
 int randomPlayer();
 void displayPregameCutscene();
 
