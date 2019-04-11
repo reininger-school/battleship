@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <regex.h>
 #include "battleship.h"
 
 #define BUF_SIZE 32
@@ -22,5 +24,11 @@ int isYN(char *buf);
 int getInt();
 int getIntRange(int low, int high);
 void typewriter(char* str, int milli);
+int match(const char *str, const char *pattern);
+int isYN2(char *buf);
+void printCoord(Coord coord);
+int getRD();
+Coord getCoord();
+void enterToContinue();
 
 #endif
