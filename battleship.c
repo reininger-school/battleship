@@ -1,6 +1,14 @@
 #include "battleship.h"
 #include "util.h"
 
+//table of names for ships aligned with boardEntity enum
+const char *shipNameTab[] = {"Carrier", "Battleship", "Cruiser", "Submarine",
+					   		 "Destroyer"};
+
+const char shipSymbolTab[] = {'C', 'B', 'R', 'S', 'D'};
+
+const int shipSizeTab[] = {5, 4, 3, 3, 2};
+
 //runs battleship app
 int runApp()
 {
@@ -10,7 +18,7 @@ int runApp()
 	//table of functions defining state behavior
 	void (* const stateTable[])() = {
 		displaySplash, displayRules, setupGame, placeHumanShips,
-		displayPregameCutscene
+		displayPregameCutscene, humanTurn, computerTurn
 	};
 
 	//main game loop
@@ -25,7 +33,7 @@ void displaySplash(State *state, Player *human, Player *computer)
 {
 	clear();
 	fprint("art/title.txt");
-	getchar();
+	enterToContinue();
 	*state = RULES;
 }
 
@@ -51,13 +59,31 @@ void setupGame(State *state, Player *human, Player *computer)
 //place human ships manually or randomly
 void placeHumanShips(State *state, Player *human, Player *computer)
 {
-	promptPlacement();
-	if (getIntRange(1, 2) == 1)
-		placeShipsRandomly(human);
+	int method, confirm = 0; //1 = random placement, 2 = manual
+	while (!confirm){
+		clear();
+		promptPlacement();
+		method = getIntRange(1, 3);
+		promptConfirmMethod(method);
+		confirm = getYN();
+	}
+	if (method == 1)
+		placeShipsRandomly(human, VISIBLE);
 	else
-		placeShipsManually(human);
+		placeShipsManually(human, VISIBLE);
 	*state = CUTSCENE;
 }
+
+void promptConfirmMethod(int method)
+{
+	if (method == 1)
+		printf("You have elected to place your ships randomly. Is this"\
+				"correct? (Y/n)\n");
+	else
+		printf("You have elected to place your ships manually. Is this"\
+				"correct? (Y/n)\n");
+}
+
 
 //prompt user to place ships randomly or manually
 void promptPlacement()
@@ -69,10 +95,62 @@ void promptPlacement()
 		   "2. Place ships manually\n");
 }
 
-void placeShipsManually(Player *player)
+void placeShipsManually(Player *player, int visible)
 {
-	puts("nah");
+	Coord start;
+	int dir, confirm = 0;
+	for (int i=0; i<N_SHIPS; i++){
+		while (!confirm){//prompt ship placement while position not confirmed
+			displayManualInstructions(player->board);
+			promptOrientation(player->ships[i]);
+			dir = getRD();
+			promptStartingCoord();
+			start = getCoord();
+			//confirm placement
+			if (checkShipFits(start.row, start.column, dir, player->ships[i], player->board)){
+				promptConfirmPosition(start, dir);
+				confirm = getYN();
+			}
+			else{
+				printf("Ship does not fit here.");
+				enterToContinue();
+			}
+		}
+		placeShip(start.row, start.column, dir, player->ships[i],
+				  player->board, visible);
+		confirm = 0;
+	}
 }
+
+void promptConfirmPosition(Coord start, int dir)
+{
+	printf("You have selected "); 
+	printCoord(start);
+	char *dirStr[] = {"down", "right"};
+	printf(" %s to place your ship. Is this correct? (Y/n)\n",
+			dirStr[dir]);
+}
+
+
+void displayManualInstructions(Tile board[ROWS][COLUMNS])
+{
+	clear();
+	fprint("art/manual_instructions.txt");
+	printBoard(board);
+}
+
+void promptOrientation(Ship ship)
+{
+	printf("How would you like to orient your %s (%d tiles)? R (right) or"\
+		   " D (down):\n", shipNameTab[ship.entity], shipSizeTab[ship.entity]);
+}
+
+void promptStartingCoord()
+{
+	printf("Where would you like the starting point to be?\n");
+	printf("Please enter a row letter followed by column number:\n");
+}
+
 
 //initialize player data
 void initializePlayer(Player *player)
@@ -102,24 +180,19 @@ void initializeShips(Ship ships[])
 		ships[i].sunk = 0;
 	}
 	//carrier
-	ships[CARRIER].symbol = 'C';
-	ships[CARRIER].size = ships[CARRIER].hp = 5;
+	ships[CARRIER].hp = shipSizeTab[CARRIER];
 	ships[CARRIER].entity = CARRIER;
 	//battleship
-	ships[BATTLESHIP].symbol = 'B';
-	ships[BATTLESHIP].size = ships[BATTLESHIP].hp = 4;
+	ships[BATTLESHIP].hp = shipSizeTab[BATTLESHIP];
 	ships[BATTLESHIP].entity = BATTLESHIP;
 	//cruiser
-	ships[CRUISER].symbol = 'R';
-	ships[CRUISER].size = ships[CRUISER].hp = 3;
+	ships[CRUISER].hp = shipSizeTab[CRUISER];
 	ships[CRUISER].entity = CRUISER;
 	//submarine
-	ships[SUBMARINE].symbol = 'S';
-	ships[SUBMARINE].size = ships[SUBMARINE].hp = 3;
+	ships[SUBMARINE].hp = shipSizeTab[SUBMARINE];
 	ships[SUBMARINE].entity = SUBMARINE;
 	//destroyer
-	ships[DESTROYER].symbol = 'D';
-	ships[DESTROYER].size = ships[DESTROYER].hp = 2;
+	ships[DESTROYER].hp = shipSizeTab[DESTROYER];
 	ships[DESTROYER].entity = DESTROYER;
 }
 
@@ -132,19 +205,19 @@ void initializeStats(Stats *stats)
 //place computer ships on the board
 void placeComputerShips(Player *computer)
 {
-	placeShipsRandomly(computer);
+	placeShipsRandomly(computer, INVISIBLE);
 }
 
 //place player ships randomly on their board
-void placeShipsRandomly(Player *player)
+void placeShipsRandomly(Player *player, int visible)
 {
 	for (int i=0; i<N_SHIPS; i++){
-		placeShipRandomly(player->ships[i], player->board);
+		placeShipRandomly(player->ships[i], player->board, visible);
 	}
 }
 
 //place single ship randomly on board
-int placeShipRandomly(Ship ship, Tile board[ROWS][COLUMNS])
+int placeShipRandomly(Ship ship, Tile board[ROWS][COLUMNS], int visible)
 {
 	int row = 0, column = 0, dir = 0;
 	do {//find open location
@@ -153,28 +226,30 @@ int placeShipRandomly(Ship ship, Tile board[ROWS][COLUMNS])
 		dir = randRange(0, 2);
 	} while(!checkShipFits(row, column, dir, ship, board));
 
-	return placeShip(row, column, dir, ship, board);
+	return placeShip(row, column, dir, ship, board, visible);
 }
 
 //place ship on board at given position
 //will always place ship does not check for other entities, does
 //check out of bounds
 int placeShip(int row, int column, int dir, Ship ship,
-				Tile board[ROWS][COLUMNS])
+				Tile board[ROWS][COLUMNS], int visible)
 {
 	if (isOutOfBounds(row, column))
 		return -1;
 	//place on board
 	if (dir == DOWN){
-		for (int i=0; i<ship.size; i++){
-			board[row+i][column].visible = ship.symbol;
+		for (int i=0; i<shipSizeTab[ship.entity]; i++){
 			board[row+i][column].entity = ship.entity;
+			if (visible)
+				board[row+i][column].visible = shipSymbolTab[ship.entity];
 		}
 	}
 	else{
-		for (int i=0; i<ship.size; i++){
-			board[row][column+i].visible = ship.symbol;
+		for (int i=0; i<shipSizeTab[ship.entity]; i++){
 			board[row][column+i].entity = ship.entity;
+			if (visible)
+				board[row][column+i].visible = shipSymbolTab[ship.entity];
 		}
 	}
 	return 1;
@@ -186,14 +261,14 @@ int checkShipFits(int row, int column, int dir, Ship ship,
 					Tile board[ROWS][COLUMNS])
 {
 	if (dir == DOWN){
-		for (int i=0; i<ship.size; i++){
+		for (int i=0; i<shipSizeTab[ship.entity]; i++){
 			if (isOutOfBounds(row+i, column) ||
 				board[row+i][column].entity != WATER)
 				return 0;
 		}
 	}
 	else {
-		for (int i=0; i<ship.size; i++){
+		for (int i=0; i<shipSizeTab[ship.entity]; i++){
 			if (isOutOfBounds(row, column+i) ||
 				board[row][column+i].entity != WATER)
 				return 0;
@@ -215,8 +290,10 @@ int randomPlayer()
 	return randRange(0, 2);
 }
 
+//shows cutscene prior to 
 void displayPregameCutscene(State *state, Player *human, Player *computer)
 {
+	#ifndef QUICK_START //skip cutscene
 	char *str1 = "Your ships are maneuvering into position";
 	char *str2 = "The first shot has been fired!!! Engaging!!!\n";
 
@@ -229,9 +306,46 @@ void displayPregameCutscene(State *state, Player *human, Player *computer)
 	typewriter(str2, 35);
 	usleep(MILL_TO_MICRO(800));
 	getchar();
-	*state = EXIT;
+	#endif
 
 	//select random player to go first
 	*state = randomPlayer() ? COMPUTER_TURN : HUMAN_TURN;
+}
+
+//human turn actions
+void humanTurn(State *state, Player *human, Player *computer)
+{
+	displayBoards(human, computer);
+	//prompt where to fire
+	//read coordinate
+	//take shot
+	//print result
+	*state = EXIT;
+}
+
+//computer turn actions
+void computerTurn(State *state, Player *human, Player *computer)
+{
+	displayBoards(human, computer);
+	printf("It's the enemy's turn!");
+	usleep(MILL_TO_MICRO(700));
+	
+	*state = EXIT;
+}
+
+//display boards for human
+void displayBoards(Player *human, Player *computer)
+{
+	clear();
+	printf("                 Enemy Board\n");
+	printBoard(computer->board);
+	printf("                 Your Board\n");
+	printBoard(human->board);
+}
+
+void promptShot()
+{
+	printf("It's your turn! Where would you like to target?\n");
+	printf("Please enter a letter followed by a number: ");
 }
 

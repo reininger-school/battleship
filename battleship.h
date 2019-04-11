@@ -24,7 +24,7 @@
 
 //debuggers: 1 for on, 0 for off
 #define DEBUG 0 //prints grid with computer ship locations as well
-#define QUICK_START 0 // skips opening cut scene
+#define QUICK_START  // skips opening cut scene
 #define CHOOSE_SHOT 0 // allows selction of shot when AI tells the computer to shoot randomly
 
 //ship placement macros
@@ -33,6 +33,9 @@
 #define DOWN 0
 #define RIGHT 1
 #define N_SHIPS 5
+#define MAX_SHIP_NAME 16
+#define VISIBLE 1
+#define INVISIBLE 0
 
 //board symbols
 #define HIT_CHAR 42 // "*"  
@@ -60,9 +63,7 @@ typedef enum state {
 
 //ship struct
 typedef struct ship {
-	char symbol;
 	BoardEntity entity;
-	int size;
 	int hp;
 	int sunk;
 } Ship;
@@ -84,6 +85,11 @@ typedef struct player{
 	Stats stats;
 } Player;
 
+typedef struct coord{
+	int row;
+	int column;
+} Coord;
+
 //////////////////////////////////////////////
 //Function Prototypes
 //////////////////////////////////////////////
@@ -98,16 +104,24 @@ void initializeShips(Ship ships[]);
 void initializeStats(Stats *stats);
 void placeHumanShips(State *state, Player *human, Player *computer);
 void promptPlacement();
-void placeShipsManually(Player *player);
+void placeShipsManually(Player *player, int visible);
 void placeComputerShips(Player *computer);
-void placeShipsRandomly(Player *player);
-int placeShipRandomly(Ship ship, Tile board[ROWS][COLUMNS]);
+void placeShipsRandomly(Player *player, int visible);
+int placeShipRandomly(Ship ship, Tile board[ROWS][COLUMNS], int visible);
 int placeShip(int row, int column, int dir, Ship ship,
-				Tile board[ROWS][COLUMNS]);
+				Tile board[ROWS][COLUMNS], int visible);
 int checkShipFits(int row, int column, int dir, Ship ship, 
 					Tile board[ROWS][COLUMNS]);
 int isOutOfBounds(int row, int column);
 int randomPlayer();
 void displayPregameCutscene();
+void humanTurn(State *state, Player *human, Player *computer);
+void computerTurn(State *state, Player *human, Player *computer);
+void displayBoards(Player *human, Player *computer);
+void promptConfirmPosition(Coord start, int dir);
+void displayManualInstructions(Tile board[ROWS][COLUMNS]);
+void promptOrientation(Ship ship);
+void promptStartingCoord();
+void promptConfirmMethod(int method);
 
 #endif
