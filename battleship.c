@@ -337,10 +337,14 @@ void computerTurn(State *state, Player *human, Player *computer)
 void displayBoards(Player *human, Player *computer)
 {
 	clear();
+	printBoards(computer->board, human->board);
+	/*
+	clear();
 	printf("                 Enemy Board\n");
 	printBoard(computer->board);
 	printf("                 Your Board\n");
 	printBoard(human->board);
+	*/
 }
 
 void promptShot()

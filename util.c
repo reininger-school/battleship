@@ -46,6 +46,38 @@ void printBoard(Tile board[ROWS][COLUMNS])
 	fclose(format);
 }
 
+void printBoards(Tile board0[ROWS][COLUMNS], Tile board1[ROWS][COLUMNS])
+{
+	char c = 0;
+	int i[2] = {0, 0};
+	int file = 0; //track which board is being printed
+	FILE *format[2] = {fopen("art/Board.txt", "r"),
+					   fopen("art/Board.txt", "r")};
+
+	if (format[0] && format[1]){
+		printf("                  Enemy Board                                    Friendly Board\n");
+		while(c != EOF){
+			while ( (c = fgetc(format[file])) != '\n' && c != EOF){
+				if (c == '%'){
+					putchar(!file ? board0[i[file]/COLUMNS][i[file]%ROWS].visible
+							: board1[i[file]/COLUMNS][i[file]%ROWS].visible);
+					i[file]++;
+				}
+				else if (c == '\r');
+				else
+					putchar(c);
+			}
+			printf("%s", file ? "\n" : "\t");
+			file = !file;
+		}
+		putchar('\n');
+	}
+	else
+		printf("Error: could not open art/Board.txt\n");
+	fclose(format[0]);
+	fclose(format[1]);			
+}
+
 //safely reads a line from stdin to buf without newline
 //returns buf
 char *getUserInput(char *buf, int size)

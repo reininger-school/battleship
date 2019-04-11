@@ -30,5 +30,6 @@ void printCoord(Coord coord);
 int getRD();
 Coord getCoord();
 void enterToContinue();
+void printBoards(Tile board1[ROWS][COLUMNS], Tile board2[ROWS][COLUMNS]);
 
 #endif
