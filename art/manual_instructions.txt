@@ -1,0 +1,5 @@
+To place each ship, you must choose how you would like it oriented (either
+right or down) as well as the starting point for the ship. For example, if
+you wanted the carrier to occupy the spaces A1-A5, you would choose a
+right orientation with a starting point at A1, and the carrier will fill
+in to the right.
