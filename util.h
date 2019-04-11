@@ -13,6 +13,9 @@
 #define MILL_TO_MICRO(X) (X * 1000)
 
 extern char buf[BUF_SIZE]; //buffer for user input functions
+extern const char *shipNameTab[];
+extern const char shipSymbolTab[];
+extern const int shipSizeTab[];
 
 void fprint(char* path);
 void clear();
@@ -31,5 +34,6 @@ int getRD();
 Coord getCoord();
 void enterToContinue();
 void printBoards(Tile board1[ROWS][COLUMNS], Tile board2[ROWS][COLUMNS]);
+void printShips(Player *player);
 
 #endif

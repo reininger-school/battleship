@@ -50,6 +50,10 @@ typedef enum direction {
 	NORTH, EAST, SOUTH, WEST
 } Direction;
 
+typedef enum shotStatus {
+	HIT, MISS, SUNK
+} ShotStatus;
+
 //ships
 typedef enum boardEntity {
 	CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, WATER
@@ -71,6 +75,7 @@ typedef struct ship {
 typedef struct tile {
 	BoardEntity entity;//entity occupying board tile
 	char visible;//char to be printed for tile
+	int targeted;
 } Tile;
 
 typedef struct stats{
@@ -123,5 +128,10 @@ void displayManualInstructions(Tile board[ROWS][COLUMNS]);
 void promptOrientation(Ship ship);
 void promptStartingCoord();
 void promptConfirmMethod(int method);
+void promptTarget();
+int isTargeted(Tile tile);
+ShotStatus fire(Coord target, Player *player);
+void printResult(ShotStatus status);
+int isSunk(Ship ship);
 
 #endif

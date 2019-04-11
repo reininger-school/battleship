@@ -167,6 +167,7 @@ void initializeBoard(Tile board[ROWS][COLUMNS])
 		for (int j=0; j<COLUMNS; j++){
 			board[i][j].entity = WATER;
 			board[i][j].visible = WATER_CHAR;
+			board[i][j].targeted = 0;
 		}
 	}
 }
@@ -315,12 +316,70 @@ void displayPregameCutscene(State *state, Player *human, Player *computer)
 //human turn actions
 void humanTurn(State *state, Player *human, Player *computer)
 {
+	Coord target;
+	ShotStatus status = 0;
 	displayBoards(human, computer);
-	//prompt where to fire
-	//read coordinate
-	//take shot
-	//print result
-	*state = EXIT;
+	putchar('\n');
+	printf("Friendly Ship HP: ");
+	printShips(human);
+	printf("Enemy Ship HP:    ");
+	printShips(computer);
+	promptTarget();
+	target = getCoord();
+	while (isTargeted(computer->board[target.row][target.column])){
+		printf("You already targeted there. Please choose somewhere else.\n");
+		target = getCoord();
+	}
+	status = fire(target, computer);
+	printResult(status);
+	if (status == SUNK){
+		printf("%s Has been sunk! Press enter to continue...",
+				shipNameTab[computer->board[target.row][target.column].entity]);
+		enterToContinue();
+	}
+	else
+		usleep(MILL_TO_MICRO(1000));
+	*state = HUMAN_TURN;
+}
+
+void printResult(ShotStatus status)
+{
+	char *str[] = {"hit", "miss", "hit"};
+	printf("Firing");
+	typewriter("....", 300);
+	printf("It's a %s!\n", str[status]);
+}
+
+//return 1 if tile already targeted
+int isTargeted(Tile tile)
+{
+	return tile.targeted;
+}
+
+//precondition: does not check if tile aleardy targeted
+ShotStatus fire(Coord target, Player *player)
+{
+	BoardEntity entity = player->board[target.row][target.column].entity;
+	player->board[target.row][target.column].targeted = 1;
+	if (entity != WATER){//check hit
+		player->board[target.row][target.column].visible = HIT_CHAR;
+		player->ships[entity].hp--;
+		return isSunk(player->ships[entity]) ? SUNK : HIT;
+	}
+	player->board[target.row][target.column].visible = MISS_CHAR;
+	return MISS;
+}
+
+//returns 1 if ship is sunk
+int isSunk(Ship ship)
+{
+	return !ship.hp;
+}
+
+void promptTarget()
+{
+	printf("It's your turn! Where would you like to target?\n");
+	printf("Please enter a row letter followed by a column number: \n");
 }
 
 //computer turn actions

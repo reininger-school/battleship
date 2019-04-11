@@ -54,7 +54,7 @@ void printBoards(Tile board0[ROWS][COLUMNS], Tile board1[ROWS][COLUMNS])
 	FILE *format[2] = {fopen("art/Board.txt", "r"),
 					   fopen("art/Board.txt", "r")};
 
-	if (format[0] && format[1]){
+	if (format[0] && format[1]){//check files open
 		printf("                  Enemy Board                                    Friendly Board\n");
 		while(c != EOF){
 			while ( (c = fgetc(format[file])) != '\n' && c != EOF){
@@ -179,4 +179,17 @@ void printCoord(Coord coord)
 void enterToContinue()
 {
 	while (getchar() != '\n');
+}
+
+void printShips(Player *player)
+{
+	for (int i=0; i<N_SHIPS; i++){
+		printf("%s ", shipNameTab[i]);
+		for (int j=0; j<player->ships[i].hp; j++)
+			putchar('O');
+		for (int j=player->ships[i].hp; j<shipSizeTab[i]; j++)
+			putchar('X');
+		putchar(' ');
+	}
+	putchar('\n');
 }
