@@ -58,7 +58,7 @@ void promptConfirmMethod(int method)
 {
 	if (method == 1)
 		printf("You have elected to place your ships randomly. Is this"\
-				"correct? (Y/n)\n");
+				" correct? (Y/n)\n");
 	else
 		printf("You have elected to place your ships manually. Is this"\
 				"correct? (Y/n)\n");
