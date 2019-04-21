@@ -9,9 +9,13 @@
 #ifndef _TYPES_H__
 #define _TYPES_H__
 
+//#include "shotStack.h"
+
 //debuggers
 //#define QUICK_PLAY //remove all animations and cutscenes
 //#define SHOW_ENEMY //show enemy ship positions
+//#define PRINT_AI_STATE //print state of AI every computer turn
+//#define CHOOSE_AI_RAND //choose wher AI shoots in AI_RAND state
 
 //ship placement macros
 #define ROWS 10
@@ -27,6 +31,8 @@
 #define HIT_CHAR 42 // "*"  
 #define MISS_CHAR 109 // "m"
 #define WATER_CHAR '~' // 45 = "-" 32 = " "
+#define STACK_SIZE 64
+
 
 ///table of names for ships, aligned with BoardEntity enum
 extern const char *shipNameTab[];
@@ -41,6 +47,14 @@ extern const int shipSizeTab[];
 typedef enum bool {
 	FALSE, TRUE
 } Bool;
+
+/**
+* Coordinate with row and column for refering to board locations.
+*/
+typedef struct coord{
+	int row;
+	int column;
+} Coord;
 
 /**
 * Cardinal directions
@@ -108,20 +122,33 @@ typedef struct stats{
 } Stats;
 
 /**
+* Shot data.
+*/
+typedef struct shot{
+	Coord target;
+	ShotStatus hms;
+	BoardEntity entity;
+} Shot;
+
+/**
+* Stack data structure for shots.
+*
+* Array implementation.
+*/
+typedef struct shotStack{
+	Shot base[STACK_SIZE];
+	Shot *maxTop;
+	Shot *top;
+} ShotStack;
+
+/**
 * Data needed for each player.
 */
 typedef struct player{
 	Tile board[ROWS][COLUMNS];
 	Ship ships[N_SHIPS];
 	Stats stats;
+	ShotStack stack;
 } Player;
-
-/**
-* Coordinate with row and column for refering to board locations.
-*/
-typedef struct coord{
-	int row;
-	int column;
-} Coord;
 
 #endif

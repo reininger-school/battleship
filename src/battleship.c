@@ -2,7 +2,7 @@
 #include "../header/util.h"
 
 const char *shipNameTab[] = {"Carrier", "Battleship", "Cruiser", "Submarine",
-					   		 "Destroyer"};
+					   		 "Destroyer", ""};
 const char shipSymbolTab[] = {'C', 'B', 'R', 'S', 'D'};
 const int shipSizeTab[] = {5, 4, 3, 3, 2};
 
@@ -14,7 +14,7 @@ int runApp()
 	//table of functions defining state behavior
 	void (* const stateTable[])() = {
 		displaySplash, displayRules, setupGame, placeHumanShips,
-		displayPregameCutscene, humanTurn, computerTurn
+		displayPregameCutscene, humanTurn, computerTurn, displaySplash
 	};
 
 	//main game loop

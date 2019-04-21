@@ -42,3 +42,7 @@ void displayPregameCutscene(State *state, Player *human, Player *computer)
 	*state = randomPlayer() ? COMPUTER_TURN : HUMAN_TURN;
 }
 
+void displayWinCutscene(State *state, Player *human, Player *computer)
+{
+
+}

@@ -28,9 +28,9 @@ void typewriter(char *str, int milli)
 	}
 }
 
-void printCoord(Coord coord)
+void fprintCoord(FILE *file, Coord coord)
 {
-	printf("%c%d", coord.row+'A', coord.column);
+	fprintf(file, "%c%d", coord.row+'A', coord.column);
 }
 
 void printBoard(Tile board[ROWS][COLUMNS])
@@ -183,6 +183,13 @@ int randRange(const int low, const int high)
 	return low + rand() % (high - low);
 }
 
+Coord randCoord()
+{
+	Coord result;
+	result.row = randRange(0, ROWS);
+	result.column = randRange(0, COLUMNS);
+	return result;
+}
 
 int randomPlayer()
 {

@@ -14,6 +14,7 @@
 #include <time.h>
 #include "types.h"
 #include "placeShips.h"
+#include "shotStack.h"
 
 /**
 * Setup for battleship game.
@@ -28,8 +29,7 @@
 void setupGame(State *state, Player *human, Player *computer);
 
 /**
-* Initialize players board, ships, and stats.
-*
+* Initialize players board, ships, stats, and stack.
 */
 void initializePlayer(Player *player);
 

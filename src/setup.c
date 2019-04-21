@@ -14,6 +14,7 @@ void initializePlayer(Player *player)
 	initializeBoard(player->board);
 	initializeShips(player->ships);
 	initializeStats(&player->stats);
+	initStack(&player->stack);
 }
 
 void initializeBoard(Tile board[ROWS][COLUMNS])

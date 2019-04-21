@@ -12,6 +12,9 @@
 #include <stdio.h>
 #include "types.h"
 #include "util.h"
+#include "ai.h"
+#include "shotStack.h"
+#include "placeShips.h"
 
 /**
 * Carry out behavior during human's turn.
@@ -40,9 +43,13 @@ void displayGameInfo(Player *human, Player *computer);
 void promptTarget();
 
 /**
-* Print if shot was hit or miss.
+* Print if shot was hit, miss, or sunk.
+*
+* @param status Status of shot.
+* @param target Where shot was fired.
+* @param player Targeted player.
 */
-void printResult(ShotStatus status);
+void printResult(ShotStatus status, Coord target, Player *player);
 
 /**
 * Checks if tile has been previously fired at.
@@ -53,6 +60,11 @@ void printResult(ShotStatus status);
 int isTargeted(Tile tile);
 
 /**
+* Checks if shot is valid.
+*/
+Bool isValid(Tile tile, Coord coord);
+
+/**
 * Checks if ship was sunk.
 *
 * @param ship Ship to check sunk status.
@@ -61,14 +73,25 @@ int isTargeted(Tile tile);
 int isSunk(Ship ship);
 
 /**
+* Checks if player has damaged but not sunken ships.
+*/
+Bool existsUnsunk(Player *player);
+
+/**
+* Checks if player has any remaining ships.
+*/
+Bool isAllSunk(Player *player);
+
+/**
 * Fires a shot.
 *
 * Updates symbol of tile fired at to hit or miss. Updates ships hp if hit.
 * @pre Must check if target has been previously fired at.
 * @param target Tile to fire at.
-* @param player Player to fire at.
+* @param firee Player to fire at.
+* @param firer Player firing.
 * @return Result of shot, HIT, MISS, or SUNK.
 */
-ShotStatus fire(Coord target, Player *player);
+ShotStatus fire(Coord target, Player *firee, Player *firer);
 
 #endif

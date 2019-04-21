@@ -67,7 +67,7 @@ void promptConfirmMethod(int method)
 void promptConfirmPosition(Coord start, int dir)
 {
 	printf("You have selected "); 
-	printCoord(start);
+	fprintCoord(stdout, start);
 	char *dirStr[] = {"down", "right"};
 	printf(" %s to place your ship. Is this correct? (Y/n)\n",
 			dirStr[dir]);

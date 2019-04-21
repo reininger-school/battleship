@@ -24,6 +24,8 @@
 
 extern char buf[BUF_SIZE]; ///<buffer for user input functions
 
+
+
 //////////////////////////////
 //print functions
 //////////////////////////////
@@ -48,9 +50,9 @@ void fprint(char* path);
 void typewriter(char* str, int milli);
 
 /**
-* Prints coordinate.
+* Prints coordinate to file.
 */
-void printCoord(Coord coord);
+void fprintCoord(FILE *file, Coord coord);
 
 /**
 * Prints board.
@@ -132,6 +134,14 @@ int match(const char *str, const char *pattern);
 * returns integer in [low, high)
 */
 int randRange(int low, int high);
+
+/**
+* returns random board coordinate.
+*
+* 0 <= row < ROW
+* 0 <= column < COLUMN
+*/
+Coord randCoord();
 
 /**
 * returns 0 or 1.
